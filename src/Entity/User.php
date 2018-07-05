@@ -11,20 +11,21 @@ namespace App\Entity;
 use App\Model\DynamicModelTrait;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints as ConstraintPassword;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="user")
- * @todo: constraint
  */
-class User  extends BaseUser {
+class User extends BaseUser {
+
+	use DynamicModelTrait;
 
     const
         FIELD_FNAME = 'firstName',
         FIELD_LNAME = 'lastName'
     ;
-
-    use DynamicModelTrait;
 
 	/**
 	 * @ORM\Id
@@ -33,13 +34,16 @@ class User  extends BaseUser {
 	 */
 	protected $id;
 
-    /**
-     * @var array
-     * @ORM\Column(name="user_data", type="array", nullable=false)
-     */
-	protected $entityDynamicData;
+	/**
+	 * @ConstraintPassword\PasswordStrength(
+	 *     minLength=8,
+	 *     minStrength=3,
+	 *     groups={ "ResetPassword", "Registration", "ChangePassword"}
+	 * )
+	 */
+	protected $plainPassword;
 
-    /**
+	/**
      * {@inheritdoc}
      */
 	public function setEmail($email)
@@ -51,7 +55,11 @@ class User  extends BaseUser {
     }
 
     /**
-     * @return mixed|null
+     * @return string
+     * @Assert\NotBlank(
+     *     message="Please enter your name",
+     *     groups={"Profile", "Registration"}
+     *     )
      */
     public function getFirstName()
     {
@@ -64,11 +72,19 @@ class User  extends BaseUser {
      */
     public function setFirstName( ?string $name  )
     {
+    	if( $name ) {
+		    $name = trim($name);
+	    }
+
         return $this->__setData( self::FIELD_FNAME, $name );
     }
 
     /**
-     * @return mixed|null
+     * @return string
+     * @Assert\NotBlank(
+     *     message="Please enter your surname",
+     *     groups={"Profile", "Registration"}
+     *     )
      */
     public function getLastName()
     {

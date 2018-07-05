@@ -8,13 +8,15 @@
 
 namespace App\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 
 trait DynamicModelTrait
 {
     /**
      * @var array
+     * @ORM\Column( type="array", nullable=true, unique=false )
      */
-    protected $entityDynamicData;
+    private $entityDynamicData = [];
 
     /**
      * @param string $key

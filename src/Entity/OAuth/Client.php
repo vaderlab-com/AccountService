@@ -14,8 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity
  * @todo: constrints
+ *
+ * @ORM\Entity
  */
 class Client extends BaseClient
 {
@@ -36,13 +37,7 @@ class Client extends BaseClient
      */
 	protected $user;
 
-    /**
-     * @var bool
-     * @ORM\Column( name="data", type="boolean", nullable=false )
-     */
-	protected $entityDynamicData;
-
-    /**
+	/**
      * @param UserInterface $user
      * @return Client
      */

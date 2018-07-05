@@ -42,9 +42,8 @@ class LocaleDetectorSubscriber implements EventSubscriberInterface{
 
 	public static function getSubscribedEvents()
 	{
-		return array(
-			// must be registered before (i.e. with a higher priority than) the default Locale listener
+		return [
 			KernelEvents::REQUEST => [ [ 'onKernelRequest', 20 ] ],
-		);
+		];
 	}
 }

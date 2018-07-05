@@ -5,20 +5,44 @@
     <div class="form-signin-container">
         <div class="row justify-content-center login-form-nomargin no-margin">
             <div class="col-lg-4 col-lg-offset-4 col-sm-12 login-form-column no-padding">
-                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'autocomplete': 'off', 'class': 'form-register fos_user_registration_register'}}) }}
+                {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'autocomplete': 'off', novalidate: 'novalidate', 'class': 'needs-validation form-register fos_user_registration_register'}}) }}
 
                 <div class="form-label-group">
                 {{ form_widget(form.email, { attr: { placeholder: 'Email'|trans } }) }}
                     <label for="fos_user_registration_form_email">{{ 'Email'|trans }}</label>
+                    <div class="invalid-feedback">
+                        {{ form_errors( form.email ) }}
+                    </div>
                 </div>
                 <div class="form-label-group">
                 {{ form_widget(form.plainPassword.first, { attr: { placeholder: 'Enter new password'|trans } }) }}
                     <label for="fos_user_registration_form_plainPassword_first">{{ 'Enter new password'|trans }}</label>
+                    <div class="invalid-feedback">
+                        {{ form_errors( form.plainPassword.first ) }}
+                        {{ form_errors( form.plainPassword.second ) }}
+                    </div>
                 </div>
                 <div class="form-label-group">
                 {{ form_widget(form.plainPassword.second, { attr: { placeholder: 'Repeat password'|trans } }) }}
                     <label for="fos_user_registration_form_plainPassword_second">{{ 'Repeat password'|trans }}</label>
                 </div>
+
+                <div class="form-label-group">
+                    {{ form_widget(form.firstName, { attr: { placeholder: 'First name'|trans } }) }}
+                    <label for="fos_user_registration_form_firstName">{{ 'First name'|trans }}</label>
+                    <div class="invalid-feedback">
+                        {{ form_errors( form.firstName ) }}
+                    </div>
+                </div>
+
+                <div class="form-label-group">
+                    {{ form_widget(form.lastName, { attr: { placeholder: 'Surename'|trans } }) }}
+                    <label for="fos_user_registration_form_lastName">{{ 'Surename'|trans }}</label>
+                    <div class="invalid-feedback">
+                        {{ form_errors( form.lastName ) }}
+                    </div>
+                </div>
+
                 {% if form._token %}
                     {{ form_widget(form._token) }}
                 {% endif %}
