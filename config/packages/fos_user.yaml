@@ -5,6 +5,9 @@ fos_user:
     registration:
         form:
             type: App\Form\Security\RegistrationFormType
+    profile:
+        form:
+            type: App\Form\Profile\ProfileFormType
     from_email:
         address: "ceo@vaderlab.com"
         sender_name: "Stanislau Komar"

@@ -101,8 +101,8 @@ class ApiKeyManager extends EntityService
 	protected function generateApiKey()
 	{
 		$akv = [];
-		for( $i = 0; $i < 4; ++$i ) {
-			$akv[] = uniqid();
+		for( $i = 0; $i < 2; ++$i ) {
+			$akv[] = uniqid(rand(1000000, 9999999),1);
 		}
 
 		return implode('-', $akv);
