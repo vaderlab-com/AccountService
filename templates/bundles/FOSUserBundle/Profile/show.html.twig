@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <p> Hello, <b> {{ app.user.firstName }} {{ app.user.lastName }} </b> </p>
+        <p> {{ app.user.email }} </p>
+
+    </div>
+{% endblock %}

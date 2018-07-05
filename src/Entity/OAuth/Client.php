@@ -8,14 +8,21 @@
 
 namespace App\Entity\OAuth;
 
+use App\Model\DynamicModelTrait;
 use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
+ * @todo: constrints
  */
 class Client extends BaseClient
 {
+    const FIELD_IS_INTERNAL = 'isInternal';
+
+    use DynamicModelTrait;
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -23,9 +30,49 @@ class Client extends BaseClient
 	 */
 	protected $id;
 
-	public function __construct()
-	{
-		parent::__construct();
-		// your own logic
-	}
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+	protected $user;
+
+    /**
+     * @var bool
+     * @ORM\Column( name="data", type="boolean", nullable=false )
+     */
+	protected $entityDynamicData;
+
+    /**
+     * @param UserInterface $user
+     * @return Client
+     */
+	public function setUser( UserInterface $user ) : Client
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function getUser() : ?UserInterface
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param bool|null $isInternal
+     * @return Client
+     */
+    public function setIsInternal( ?bool $isInternal): Client
+    {
+        return $this->__setData( self::FIELD_IS_INTERNAL, (boolean) $isInternal );
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isInternal() : bool
+    {
+        return $this->__getData( self::FIELD_IS_INTERNAL, false );
+    }
 }

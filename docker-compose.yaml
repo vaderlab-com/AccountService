@@ -15,6 +15,15 @@ services:
     networks:
       - vaderlab
 
+  oauth_nodejs:
+    image: node:9.11.2-slim
+    working_dir: /source
+    volumes:
+      - ./:/source
+      - ./etc/nodejs/build_static.sh:/bin/vaderlab_build_static
+    networks:
+        - vaderlab
+
   oauth_php:
     build:
       context: .
