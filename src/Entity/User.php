@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 use App\Model\DynamicModelTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,6 +43,22 @@ class User extends BaseUser {
 	 * )
 	 */
 	protected $plainPassword;
+
+	/**
+	 * @var ArrayCollection
+	 * @ORM\OneToMany( targetEntity="App\Entity\Resource", mappedBy="user", cascade={"persist"} )
+	 */
+	protected $resources;
+
+	/**
+	 * User constructor.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->resources = new ArrayCollection();
+	}
 
 	/**
      * {@inheritdoc}
@@ -99,4 +116,36 @@ class User extends BaseUser {
     {
         return $this->__setData( self::FIELD_LNAME, $name );
     }
+
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getResources(): ArrayCollection
+	{
+		return $this->resources;
+	}
+
+	/**
+	 * @param ArrayCollection $resources
+	 *
+	 * @return User
+	 */
+	public function setResources( ArrayCollection $resources ): User
+	{
+		$this->resources = $resources;
+
+		return $this;
+	}
+
+	/**
+	 * @param Resource $resource
+	 *
+	 * @return User
+	 */
+	public function addResource( Resource $resource ): User
+	{
+		$this->resources->add( $resource );
+
+		return $this;
+	}
 }

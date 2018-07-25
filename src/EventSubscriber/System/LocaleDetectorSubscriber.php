@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 
-class LocaleDetectorSubscriber implements EventSubscriberInterface{
+class LocaleDetectorSubscriber implements EventSubscriberInterface {
 
 	private $localeDetector;
 
@@ -24,6 +24,9 @@ class LocaleDetectorSubscriber implements EventSubscriberInterface{
 		$this->localeDetector = $localeDetector;
 	}
 
+	/**
+	 * @param GetResponseEvent $event
+	 */
 	public function onKernelRequest(GetResponseEvent $event)
 	{
 		$request = $event->getRequest();
@@ -34,12 +37,9 @@ class LocaleDetectorSubscriber implements EventSubscriberInterface{
 		$request->setLocale( $this->localeDetector->detectLocale( $request ) );
 	}
 
-
-	protected function getUserLocale()
-	{
-
-	}
-
+	/**
+	 * @return array
+	 */
 	public static function getSubscribedEvents()
 	{
 		return [

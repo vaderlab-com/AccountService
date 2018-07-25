@@ -41,6 +41,41 @@ class TestController {
 		return new JsonResponse([]);
 	}
 
+
+	/**
+	 * @Route("/api/v1/array")
+	 */
+	public function index1()
+	{
+
+
+		$file = dirname( __FILE__ ) . '/../../../../var/cache/tmp.php';
+
+		if( !is_file($file) ) {
+
+			$content = '';
+
+			for($i = 0; $i < 3000; ++$i) {
+
+				$tmp = 'lkjahdsfijhsadlkfjhakjdwhfla kjdsahflkjdsahflkj lkjdsahflkjdsahfdsa';
+				$tmpk = '';
+				for($b = 0; $b < 100; ++$b) {
+					$tmpk .= $tmp;
+				}
+
+				$content .= '\'_' . rand(10000, 99999999) . '\' => \'' . $tmpk . '\',' . "\r\n";
+			}
+
+
+			file_put_contents($file, '<?php $asisyas = [ ' . $content . ' ];');
+		}
+
+
+		include $file;
+
+		return new JsonResponse([]);
+	}
+
 	/**
 	 * @Route("/api/v1/apikey")
 	 *
